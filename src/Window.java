@@ -76,7 +76,7 @@ public class Window extends JFrame {
 	class ButtonHandler implements ActionListener {
 		public void actionPerformed(ActionEvent ae) {
 			if (ae.getSource() == fileItem[0]) {
-				JOptionPane.showMessageDialog(null, "Save as", "File", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null, "都是假的", "假的", JOptionPane.INFORMATION_MESSAGE);
 			} 
 			else if (ae.getSource() == editItem[0]) {
 				if(canvas.group()){
@@ -98,7 +98,6 @@ public class Window extends JFrame {
 			    String rename = JOptionPane.showInputDialog("請輸入物件名稱");
 			    if(rename != null)
 			    	canvas.renameBasicObject(rename);
-			    System.out.println(rename);
 			}
 			else if(ae.getSource().getClass().isInstance(new ImageButton())){
 				buttons.Update();

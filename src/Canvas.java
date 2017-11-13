@@ -80,7 +80,6 @@ public class Canvas extends JLayeredPane implements MouseListener {
 							if(fromeComponent.getComponent(0).isVisible()){
 								int valueX = releasedX - onPressedX;
 								int valueY = releasedY - onPressedY;
-								//System.out.println("Move from "+fromeComponent.x1 +" "+fromeComponent.y1 +" to "+(fromeComponent.x1+valueX) +" "+(fromeComponent.y1+valueY));
 								fromeComponent.relocate(valueX, valueY);
 							}
 						}
@@ -112,7 +111,6 @@ public class Canvas extends JLayeredPane implements MouseListener {
 			else if (selectedButton == ASSOCIATION || selectedButton == GENERALIZATION || selectedButton == COMPOSITION) {
 				BasicObject fromeComponent = (BasicObject) getComponentAt(onPressedX, onPressedY);
 				BasicObject toComponent = (BasicObject) getComponentAt(releasedX, releasedY);
-				//System.out.println("HH " + fromeComponent.height + " HHH " + toComponent.height);
 				if (fromeComponent.type <= USECASE && toComponent.type <= USECASE && fromeComponent.no != toComponent.no) {
 					int fromArea = fromeComponent.whichArea(onPressedX, onPressedY);
 					int toArea = toComponent.whichArea(releasedX, releasedY);
@@ -144,13 +142,10 @@ public class Canvas extends JLayeredPane implements MouseListener {
 						} catch (Exception exception) {
 						}
 					}
-					// add(new LineObject(fromeComponent, toComponent, fromArea,
-					// toArea));
 					if (!duplicate)
 						add(lineObject);
-					//System.out.println("AREA!!!!!!!!!!!!!!!" + fromArea + " " + toArea);
 				} else {
-					//System.out.println("can't draw line");
+					System.out.println("can't draw line");
 				}
 			}
 		}

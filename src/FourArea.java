@@ -8,6 +8,7 @@ public class FourArea extends JPanel{
 	int areaSize;
 	int width;
 	int height;
+	boolean isComposite = false;
 	public FourArea() {
 		super();
 	}
@@ -21,6 +22,7 @@ public class FourArea extends JPanel{
 	}
 	public FourArea(int areaSize, int x, int y, int width, int height){
 		this(areaSize, width, height);
+		isComposite = true;
 		setBounds(x, y, width+areaSize*2, height+areaSize*2);
 	}
 	public int[] getAreaPoint(int areaNo){
@@ -53,15 +55,21 @@ public class FourArea extends JPanel{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Color[] colors = new Color[4];
-        colors[0] = Color.blue;
-        colors[1] = Color.red;
-        colors[2] = Color.green;
-        colors[3] = Color.orange;
-    	for(int i = 0; i < 4; i++){
-            g.setColor(colors[i]);
-            int[] area = getAreaPoint(i);
-            g.fillRect(area[0], area[1], areaSize, areaSize);
-    	}
+        if(isComposite){
+            g.setColor(Color.lightGray);
+            g.drawRect(0, 0, width + areaSize*2-1, height + areaSize*2-1);
+        }
+        else{
+            Color[] colors = new Color[4];
+            colors[0] = Color.blue;
+            colors[1] = Color.red;
+            colors[2] = Color.green;
+            colors[3] = Color.orange;
+        	for(int i = 0; i < 4; i++){
+                g.setColor(colors[i]);
+                int[] area = getAreaPoint(i);
+                g.fillRect(area[0], area[1], areaSize, areaSize);
+        	}
+        }
     }
 }
