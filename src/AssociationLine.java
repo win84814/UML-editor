@@ -15,6 +15,5 @@ public class AssociationLine extends LineObject{
         Point fromPoint = from.getArea(fromArea);
         Point toPoint = to.getArea(toArea);
         g.drawLine(fromPoint.x, fromPoint.y, toPoint.x, toPoint.y);
-        System.out.println("draw AssociationLine from "+fromArea+" to "+toArea);
     }
 }

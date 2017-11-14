@@ -30,6 +30,5 @@ public class CompositionLine extends LineObject{
         g.fillPolygon(polygon);
         g.setColor(Color.black);
         g.drawPolygon(polygon);
-        System.out.println("draw CompositionLine from "+fromArea+" to "+toArea);
     }
 }

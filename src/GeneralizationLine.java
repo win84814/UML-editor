@@ -30,6 +30,5 @@ public class GeneralizationLine extends LineObject{
         g.fillPolygon(polygon);
         g.setColor(Color.black);
         g.drawPolygon(polygon);
-        System.out.println("draw GeneralizationLine from "+fromArea+" to "+toArea);
     }
 }
