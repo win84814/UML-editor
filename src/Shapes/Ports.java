@@ -5,11 +5,13 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
+import Global.GlobalVar;
+
 public class Ports extends JPanel{
 	int areaSize;
 	int width;
 	int height;
-	boolean isComposite = false;
+	boolean isGroup = false;
 	public Ports() {
 		super();
 	}
@@ -23,25 +25,25 @@ public class Ports extends JPanel{
 	}
 	public Ports(int areaSize, int x, int y, int width, int height){
 		this(areaSize, width, height);
-		isComposite = true;
+		isGroup = true;
 		setBounds(x, y, width+areaSize*2, height+areaSize*2);
 	}
 	public int[] getAreaPoint(int areaNo){
 		int[] area = new int[2];
 		switch (areaNo) {
-		case 0:
+		case GlobalVar.UP:
 			area[0] = width/2 + areaSize/2;
 			area[1] = areaSize/2;
 			break;
-		case 1:
+		case GlobalVar.LEFT:
 			area[0] = areaSize/2;
 			area[1] = height/2 + areaSize/2;
 			break;
-		case 2:
+		case GlobalVar.DOWN:
 			area[0] = width/2 + areaSize/2;
 			area[1] = height + areaSize/2;
 			break;
-		case 3:
+		case GlobalVar.RIGHT:
 			area[0] = width + areaSize/2;
 			area[1] = height/2 + areaSize/2;
 			break;
@@ -56,18 +58,13 @@ public class Ports extends JPanel{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if(isComposite){
+        if(isGroup){
             g.setColor(Color.lightGray);
             g.drawRect(0, 0, width + areaSize*2-1, height + areaSize*2-1);
         }
         else{
-            Color[] colors = new Color[4];
-            colors[0] = Color.blue;
-            colors[1] = Color.red;
-            colors[2] = Color.green;
-            colors[3] = Color.orange;
+            g.setColor(Color.blue);
         	for(int i = 0; i < 4; i++){
-                g.setColor(colors[i]);
                 int[] area = getAreaPoint(i);
                 g.fillRect(area[0], area[1], areaSize, areaSize);
         	}

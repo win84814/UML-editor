@@ -7,7 +7,7 @@ import Modes.GeneralizationLineMode;
 import Modes.Mode;
 import Modes.SelectMode;
 import Modes.UsecaseMode;
-public class Modefactory {
+public class ModeFactory {
 	public static Mode create(int no, GUI.Canvas canvas){
 		switch (no) {
 			case GlobalVar.SELECT: return new SelectMode(canvas);

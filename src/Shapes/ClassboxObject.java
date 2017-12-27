@@ -11,6 +11,8 @@ public class ClassboxObject extends BasicObject{
 	
 	public ClassboxObject(int x1, int y1) {
 		super(x1, y1, 100, 120);
+		type = GlobalVar.CLASS;
+		name = "Class";
 	}
 	public ClassboxObject(int no, int x1, int y1) {
 		super(x1, y1, 100, 120);
@@ -22,6 +24,7 @@ public class ClassboxObject extends BasicObject{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+		setBounds(x1-areaSize, y1-areaSize, width+areaSize*2, height+areaSize*2);
         g.setColor(Color.LIGHT_GRAY);
         g.fillRect(areaSize, areaSize, width, height);
         g.setColor(Color.black);

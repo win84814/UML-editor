@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.util.ArrayList;
-import java.util.Iterator;
 import javax.swing.*;
 
 import Global.GlobalVar;
@@ -40,12 +39,12 @@ public class Canvas extends JPanel  {
 		for(LineObject lineObject : lineObjects){
 			add(lineObject);
 		}
-		System.out.println("SIZE "+getComponentCount());
+		System.out.println("SIZE "+basicObjects.size());
 	}
 	
 	public void cancelSelect() {
 		for(BasicObject basicObject : basicObjects){
-			basicObject.getComponent(0).setVisible(false);
+			basicObject.setSelected(false);
 		}
 		selectedNo = GlobalVar.NO_SELECT;
 	}
@@ -60,60 +59,36 @@ public class Canvas extends JPanel  {
 		}
 		repaint();
 	}
-	public boolean group(){
+	public void group(){
 		cancelSelect();
 		if(selectObjects != null){
 			if(selectObjects.length > 1){
-				GroupObject compositeObject = new GroupObject(depth);
-				int max = Integer.MIN_VALUE;
-				int leftUpX = Integer.MAX_VALUE;
-				int leftUpY = Integer.MAX_VALUE;
-				int rightDownX = Integer.MIN_VALUE;
-				int rightDownY = Integer.MIN_VALUE;
-				for(int i = 0; i < selectObjects.length; i++){
-					max = Math.max(max, selectObjects[i].no);
-					leftUpX = Math.min(leftUpX, selectObjects[i].x1);
-					leftUpY = Math.min(leftUpY, selectObjects[i].y1);
-					rightDownX = Math.max(rightDownX, selectObjects[i].x1+selectObjects[i].width);
-					rightDownY = Math.max(rightDownY, selectObjects[i].y1+selectObjects[i].height);
-					compositeObject.add(selectObjects[i]);
-					remove(selectObjects[i]);
+				GroupObject groupObject = new GroupObject(depth);
+				for(BasicObject basicObject : selectObjects){
+					groupObject.addShape(basicObject);
+					basicObjects.remove(basicObject);
 				}
-
-				compositeObject.Initial(leftUpX, leftUpY, rightDownX - leftUpX, rightDownY - leftUpY);
-				add(compositeObject, new Integer(max));
+				basicObjects.add(groupObject);
 				selectedNo = depth;
 				selectObjects = null;
 				depth ++;
-				return true;
 			}
 		}
-		return false;
 	}
-	public boolean ungroup(){
+	public void ungroup(){
 		if(selectedNo != GlobalVar.NO_SELECT){
-			for(Component component : getComponents()){
-				try {
-					BasicObject basicObject = ((BasicObject) component);
-					if(basicObject.no == selectedNo){
-						if(basicObject.type == GlobalVar.GROUP){
-							for(Component component2 : basicObject.getComponents()){
-								try{
-									BasicObject basicObject2 = ((BasicObject) component2);
-									add(basicObject2, new Integer(basicObject2.no));
-								}
-								catch (Exception exception) {
-								}
-							}
-							remove(basicObject);
-							return true;
-						}
+			for(BasicObject basicObject : basicObjects){
+				if(basicObject.no == selectedNo && basicObject.type == GlobalVar.GROUP){
+					for(BasicObject subBasicObject : basicObject.container){
+						basicObjects.add(subBasicObject);
 					}
-				} catch (Exception exception) {
+					basicObjects.remove(basicObject);
+					break;
 				}
 			}
 		}
-		return false;
+		cancelSelect();
+		repaint();
 	}
 	public BasicObject clickSomething(int clickX, int clickY){
 		BasicObject result = null;

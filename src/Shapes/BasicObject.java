@@ -22,6 +22,8 @@ public class BasicObject extends JComponent {
 	public int areaSize;
 	public int type;
 	public String name;
+	public ArrayList<BasicObject> container;
+	public boolean isSelected;
 	public BasicObject() {
 		super();
 		this.setBackground(Color.white);
@@ -34,6 +36,7 @@ public class BasicObject extends JComponent {
 		this.y1 = y1;
 		this.width = width;
 		this.height =height;
+		areaSize = 10;
 		setBounds(x1-areaSize, y1-areaSize, width+areaSize*2, height+areaSize*2);
 		add(new Ports(areaSize, width, height));
 		this.getComponent(0).setVisible(false);
@@ -41,25 +44,13 @@ public class BasicObject extends JComponent {
 	public void relocate(int addX, int addY){
 		int newX = x1 + addX;
 		int newY = y1 + addY;
-		if(type != GlobalVar.GROUP){
-			setBounds(newX-areaSize, newY-areaSize, width+areaSize*2, height+areaSize*2);
-		}
-		else{
-			boolean passFirst = true;
-			for (Component component : getComponents()) {
-				if(passFirst) {
-					passFirst = false;
-					((Ports)component).setXY(newX - areaSize, newY - areaSize);;
-					continue;
-				}
-				try {
-					((BasicObject) component).relocate(addX, addY);
-				} catch (Exception exception) {
-				}
-			}
-		}
 		x1 = newX;
 		y1 = newY;
+		if(type == GlobalVar.GROUP){
+			for(BasicObject basicObject : container){
+				basicObject.relocate(addX, addY);
+			}
+		}
 	}
 	public Point getArea(int area){
 		switch (area) {
@@ -85,5 +76,21 @@ public class BasicObject extends JComponent {
 	}
 	public double distance(int x1, int y1, int x2, int y2){
 		return Math.sqrt(Math.abs(x1 - x2)*Math.abs(x1 - x2) + Math.abs(y1 - y2) * Math.abs(y1 - y2));
+	}
+	public void setSelected(boolean bool){
+		if(bool){
+			getComponent(0).setVisible(true);
+			isSelected = true;
+		}
+		else{
+			getComponent(0).setVisible(false);
+			isSelected = false;
+		}
+	}
+	public void addShape(BasicObject basicObject){
+		
+	}
+	public void removeShape(BasicObject basicObject){
+		
 	}
 }

@@ -6,7 +6,7 @@ import java.io.File;
 import javax.swing.*;
 
 import Global.GlobalVar;
-import Global.Modefactory;
+import Global.ModeFactory;
 
 
 public class Window extends JFrame {
@@ -76,7 +76,7 @@ public class Window extends JFrame {
 	void changeMode(){
 		System.out.println("now "+buttons.no);
 		canvas.removeMouseListener(mode);
-		mode = Modefactory.create(buttons.no, canvas);
+		mode = ModeFactory.create(buttons.no, canvas);
 		canvas.addMouseListener(mode);
 	}
 	class ButtonHandler implements ActionListener {
