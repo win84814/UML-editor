@@ -26,7 +26,7 @@ public class BasicObject extends JComponent {
 		super();
 		this.setBackground(Color.white);
 		areaSize = 10;
-		type = 0;
+		type = GlobalVar.NO_SELECT;
 	}
 	public BasicObject(int x1, int y1, int width, int height) {
 		this();
@@ -63,11 +63,11 @@ public class BasicObject extends JComponent {
 	}
 	public Point getArea(int area){
 		switch (area) {
-		case 0: return new Point(x1 + width/2, y1);
-		case 1: return new Point(x1 , y1 + height/2);
-		case 2: return new Point(x1 + width/2, y1 + height);
-		case 3: return new Point(x1 + width, y1 + height/2);
-		default:return new Point(-1,-1);
+			case GlobalVar.UP: return new Point(x1 + width/2, y1);
+			case GlobalVar.LEFT: return new Point(x1 , y1 + height/2);
+			case GlobalVar.DOWN: return new Point(x1 + width/2, y1 + height);
+			case GlobalVar.RIGHT: return new Point(x1 + width, y1 + height/2);
+			default:return new Point(-1,-1);
 		}
 	}
 	public int whichArea(int x, int y){

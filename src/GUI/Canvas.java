@@ -1,66 +1,62 @@
 package GUI;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Event;
 import java.awt.Graphics;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
-import javax.net.ssl.SSLException;
-import javax.sound.sampled.Line;
+import java.util.Iterator;
 import javax.swing.*;
 
 import Global.GlobalVar;
-import Shapes.AssociationLine;
 import Shapes.BasicObject;
-import Shapes.ClassboxObject;
 import Shapes.GroupObject;
-import Shapes.CompositionLine;
-import Shapes.GeneralizationLine;
 import Shapes.LineObject;
-import Shapes.UsecaseObject;
 
-public class Canvas extends JLayeredPane  {
+public class Canvas extends JPanel  {
 	public int selectedButton;
 	public int selectedNo;
 	public Integer depth;
 	public BasicObject[] selectObjects;
-	public Canvas() {
+	public ArrayList<BasicObject> basicObjects = new ArrayList<BasicObject>();
+	public ArrayList<LineObject> lineObjects  = new ArrayList<LineObject>();
+	public Graphics graphics;
+	public Canvas(Graphics graphics) {
 		super();
 		this.setBounds(140, 20, GlobalVar.CANVAS_SIZE_W, GlobalVar.CANVAS_SIZE_H);
 		this.setLayout(null);
 		this.setBackground(Color.white);
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+		this.graphics = graphics;
 		depth = 99;
 		selectedNo = GlobalVar.NO_SELECT;
 		selectedButton = GlobalVar.NO_SELECT;
 	}
-	public void cancelSelect() {
-		for (Component component : getComponents()) {
-			try {
-				BasicObject basicObject = (BasicObject) component;
-				basicObject.getComponent(0).setVisible(false);
-				
-			} catch (Exception exception) {
-			}
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		removeAll();
+		for(BasicObject basicObject : basicObjects){
+			add(basicObject);
 		}
-		selectedNo = -1;
+		for(LineObject lineObject : lineObjects){
+			add(lineObject);
+		}
+		System.out.println("SIZE "+getComponentCount());
+	}
+	
+	public void cancelSelect() {
+		for(BasicObject basicObject : basicObjects){
+			basicObject.getComponent(0).setVisible(false);
+		}
+		selectedNo = GlobalVar.NO_SELECT;
 	}
 	public void renameBasicObject(String newName){
-		if(selectedNo != -1){
-			for (Component component : getComponents()) {
-				try {
-					if(((BasicObject) component).no == selectedNo){
-						((BasicObject) component).name = newName;
-					}
-				} catch (Exception exception) {
+		if(selectedNo != GlobalVar.NO_SELECT){
+			for (BasicObject basicObject : basicObjects) {
+				if(basicObject.no == selectedNo){
+					basicObject.name = newName;
+					break;
 				}
 			}
-		}
-		else{
-			System.out.println("rename fail !!");
 		}
 		repaint();
 	}
@@ -120,19 +116,15 @@ public class Canvas extends JLayeredPane  {
 		return false;
 	}
 	public BasicObject clickSomething(int clickX, int clickY){
-		BasicObject result = new BasicObject();
+		BasicObject result = null;
 		int max = Integer.MIN_VALUE;
-		for (Component component : getComponents()) {
-			try {
-				BasicObject basicObject = ((BasicObject) component);
-				if((clickX >= basicObject.x1 && clickX <= basicObject.x1+basicObject.width &&
-						clickY >= basicObject.y1 && clickY <= basicObject.y1+basicObject.height)){
-					if(basicObject.no > max){
-						max = basicObject.no;
-						result = basicObject;
-					}
+		for (BasicObject basicObject : basicObjects) {
+			if((clickX >= basicObject.x1 && clickX <= basicObject.x1+basicObject.width &&
+					clickY >= basicObject.y1 && clickY <= basicObject.y1+basicObject.height)){
+				if(basicObject.no > max){
+					max = basicObject.no;
+					result = basicObject;
 				}
-			} catch (Exception exception) {
 			}
 		}
 		return result;

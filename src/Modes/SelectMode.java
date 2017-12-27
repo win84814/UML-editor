@@ -19,17 +19,11 @@ public class SelectMode extends Mode{
 	public void mouseClicked(MouseEvent e) {
 		int clickX = e.getX();
 		int clickY = e.getY();
-		try{
-			if (e.getButton() == MouseEvent.BUTTON1) {
-				canvas.cancelSelect();
-				if (canvas.selectedButton == GlobalVar.SELECT) {
-					BasicObject basicObject = canvas.clickSomething(clickX, clickY);
-					basicObject.getComponent(0).setVisible(true);
-					canvas.selectedNo = basicObject.no;
-				}
-			}
-		}
-		catch (Exception exception) {
+		canvas.cancelSelect();
+		BasicObject basicObject = canvas.clickSomething(clickX, clickY);
+		if(basicObject != null) {
+			basicObject.getComponent(0).setVisible(true);
+			canvas.selectedNo = basicObject.no;
 		}
 		canvas.repaint();
 	}
@@ -44,14 +38,12 @@ public class SelectMode extends Mode{
 		int releasedX = e.getX();
 		int releasedY = e.getY();
 		if(onPressedX != releasedX && onPressedY != releasedY){
-			BasicObject fromeComponent = canvas.clickSomething(onPressedX, onPressedY);
-			if(fromeComponent.type != 0){
-				if(fromeComponent.type >= GlobalVar.CLASS){
-					if(fromeComponent.getComponent(0).isVisible()){
-						int valueX = releasedX - onPressedX;
-						int valueY = releasedY - onPressedY;
-						fromeComponent.relocate(valueX, valueY);
-					}
+			BasicObject fromeBasicObject= canvas.clickSomething(onPressedX, onPressedY);
+			if(fromeBasicObject != null){
+				if(fromeBasicObject.getComponent(0).isVisible()){
+					int valueX = releasedX - onPressedX;
+					int valueY = releasedY - onPressedY;
+					fromeBasicObject.relocate(valueX, valueY);
 				}
 			}
 			else{
@@ -62,17 +54,11 @@ public class SelectMode extends Mode{
 				int rightDownX = onPressedX > releasedX ? onPressedX : releasedX;
 				int rightDownY = onPressedY > releasedY ? onPressedY : releasedY;
 				ArrayList<BasicObject> temp = new ArrayList<BasicObject>();
-				for (Component component : canvas.getComponents()) {
-					try{
-						BasicObject basicObject = (BasicObject) component;
-						if(basicObject.x1 > leftUpX && basicObject.y1 > leftUpY && 
-							basicObject.x1 + basicObject.width < rightDownX && basicObject.y1 + basicObject.height < rightDownY){
-							// basicObject show four points and set to array
-							basicObject.getComponent(0).setVisible(true);
-							temp.add(basicObject);
-						}
-					}
-					catch (Exception exception) {
+				for(BasicObject basicObject : canvas.basicObjects){
+					if(basicObject.x1 > leftUpX && basicObject.y1 > leftUpY && 
+						basicObject.x1 + basicObject.width < rightDownX && basicObject.y1 + basicObject.height < rightDownY){
+						basicObject.getComponent(0).setVisible(true);
+						temp.add(basicObject);
 					}
 				}
 				canvas.selectObjects = temp.toArray(new BasicObject[temp.size()]);

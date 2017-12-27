@@ -70,7 +70,7 @@ public class Window extends JFrame {
 		}
 	}
 	void initCanvas(){
-		canvas = new Canvas();
+		canvas = new Canvas(getGraphics());
 		add(canvas);
 	}
 	void changeMode(){

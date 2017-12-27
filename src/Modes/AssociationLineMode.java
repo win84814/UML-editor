@@ -23,13 +23,14 @@ public class AssociationLineMode extends Mode{
 		super.mouseReleased(e);
 		int releasedX = e.getX();
 		int releasedY = e.getY();
-		BasicObject fromeComponent = (BasicObject) canvas.getComponentAt(onPressedX, onPressedY);
-		BasicObject toComponent = (BasicObject) canvas.getComponentAt(releasedX, releasedY);
-		if (fromeComponent.type <= GlobalVar.USECASE && toComponent.type <= GlobalVar.USECASE && fromeComponent.no != toComponent.no) {
+		BasicObject fromeComponent = canvas.clickSomething(onPressedX, onPressedY);
+		BasicObject toComponent = canvas.clickSomething(releasedX, releasedY);
+		if (fromeComponent != null && toComponent != null && fromeComponent.no != toComponent.no) {
 			int fromArea = fromeComponent.whichArea(onPressedX, onPressedY);
 			int toArea = toComponent.whichArea(releasedX, releasedY);
 			LineObject lineObject = new AssociationLine(fromeComponent, toComponent, fromArea, toArea);
-			canvas.add(lineObject);
+			canvas.lineObjects.add(lineObject);
+			canvas.repaint();
 		}
 	}
 }

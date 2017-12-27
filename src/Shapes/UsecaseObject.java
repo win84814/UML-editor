@@ -2,6 +2,8 @@ package Shapes;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import Global.GlobalVar;
+
 public class UsecaseObject extends BasicObject {
 	public UsecaseObject() {
 	}
@@ -12,7 +14,7 @@ public class UsecaseObject extends BasicObject {
 	public UsecaseObject(int no, int x1, int y1) {
 		super(x1, y1, 150, 120);
 		this.no = no;
-		type = 5;
+		type = GlobalVar.USECASE;
 		name = "Use case";
 	}
     @Override
