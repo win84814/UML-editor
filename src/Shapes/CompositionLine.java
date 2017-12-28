@@ -4,28 +4,27 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Polygon;
 
+import Global.GlobalVar;
+
 public class CompositionLine extends LineObject{
-	public CompositionLine() {
-		
-	}
-	public CompositionLine(BasicObject from, BasicObject to, int fromArea, int toArea){
-		super(from,to,fromArea,toArea);
-		type = 3;
+	public CompositionLine(BasicObject from, BasicObject to, int fromPort, int toPort){
+		super(from,to,fromPort,toPort);
+		type = GlobalVar.COMPOSITION;
 	}
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Point fromPoint = from.getArea(fromArea);
-        Point toPoint = to.getArea(toArea);
+        Point fromPoint = from.getArea(fromPort);
+        Point toPoint = to.getArea(toPort);
         g.drawLine(fromPoint.x, fromPoint.y, toPoint.x, toPoint.y);
         Polygon polygon = new Polygon();
         polygon.addPoint(fromPoint.x, fromPoint.y);
-        switch (fromArea) {
-			case 0:polygon.addPoint(fromPoint.x - 10, fromPoint.y - 10);polygon.addPoint(fromPoint.x, fromPoint.y - 20);polygon.addPoint(fromPoint.x + 10, fromPoint.y - 10);break;
-			case 1:polygon.addPoint(fromPoint.x - 10, fromPoint.y - 10);polygon.addPoint(fromPoint.x - 20, fromPoint.y);polygon.addPoint(fromPoint.x - 10, fromPoint.y + 10);break;
-			case 2:polygon.addPoint(fromPoint.x - 10, fromPoint.y + 10);polygon.addPoint(fromPoint.x, fromPoint.y + 20);polygon.addPoint(fromPoint.x + 10, fromPoint.y + 10);break;
-			case 3:polygon.addPoint(fromPoint.x + 10, fromPoint.y - 10);polygon.addPoint(fromPoint.x + 20, fromPoint.y);polygon.addPoint(fromPoint.x + 10, fromPoint.y + 10);break;
-			default:break;
+        switch (fromPort) {
+			case GlobalVar.UP : polygon.addPoint(fromPoint.x - GlobalVar.PORT_SIZE, fromPoint.y - GlobalVar.PORT_SIZE);polygon.addPoint(fromPoint.x, fromPoint.y - GlobalVar.PORT_SIZE*2);polygon.addPoint(fromPoint.x + GlobalVar.PORT_SIZE, fromPoint.y - GlobalVar.PORT_SIZE);break;
+			case GlobalVar.LEFT : polygon.addPoint(fromPoint.x - GlobalVar.PORT_SIZE, fromPoint.y - GlobalVar.PORT_SIZE);polygon.addPoint(fromPoint.x - GlobalVar.PORT_SIZE*2, fromPoint.y);polygon.addPoint(fromPoint.x - GlobalVar.PORT_SIZE, fromPoint.y + GlobalVar.PORT_SIZE);break;
+			case GlobalVar.DOWN : polygon.addPoint(fromPoint.x - GlobalVar.PORT_SIZE, fromPoint.y + GlobalVar.PORT_SIZE);polygon.addPoint(fromPoint.x, fromPoint.y + GlobalVar.PORT_SIZE*2);polygon.addPoint(fromPoint.x + GlobalVar.PORT_SIZE, fromPoint.y + GlobalVar.PORT_SIZE);break;
+			case GlobalVar.RIGHT : polygon.addPoint(fromPoint.x + GlobalVar.PORT_SIZE, fromPoint.y - GlobalVar.PORT_SIZE);polygon.addPoint(fromPoint.x + GlobalVar.PORT_SIZE*2, fromPoint.y);polygon.addPoint(fromPoint.x + GlobalVar.PORT_SIZE, fromPoint.y + GlobalVar.PORT_SIZE);break;
+			default : break;
 		}
         g.setColor(Color.white);
         g.fillPolygon(polygon);

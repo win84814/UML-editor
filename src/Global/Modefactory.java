@@ -1,5 +1,4 @@
 package Global;
-
 import Modes.AssociationLineMode;
 import Modes.ClassboxMode;
 import Modes.CompositionLineMode;
@@ -7,6 +6,7 @@ import Modes.GeneralizationLineMode;
 import Modes.Mode;
 import Modes.SelectMode;
 import Modes.UsecaseMode;
+
 public class ModeFactory {
 	public static Mode create(int no, GUI.Canvas canvas){
 		switch (no) {

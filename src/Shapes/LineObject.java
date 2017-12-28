@@ -1,28 +1,19 @@
 package Shapes;
-import java.awt.Graphics;
-import java.awt.Point;
-
 import javax.swing.JComponent;
-import javax.swing.JPanel;
-
 import Global.GlobalVar;
 
 public class LineObject extends JComponent{
 	public BasicObject from;
 	public BasicObject to;
-	public int fromArea;
-	public int toArea;
+	public int fromPort;
+	public int toPort;
 	public int type; 
-	public LineObject() {
-		
-	}
-	public LineObject(BasicObject from, BasicObject to, int fromArea, int toArea){
+	public LineObject(BasicObject from, BasicObject to, int fromPort, int toPort){
 		this.from = from;
 		this.to = to;
-		this.fromArea = fromArea;
-		this.toArea = toArea;
-		type = -1;
+		this.fromPort = fromPort;
+		this.toPort = toPort;
+		type = GlobalVar.NO_SELECT;
 		this.setBounds(0, 0, GlobalVar.CANVAS_SIZE_W, GlobalVar.CANVAS_SIZE_H);
-		this.setOpaque(false);
 	}
 }

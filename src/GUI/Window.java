@@ -2,35 +2,29 @@ package GUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-
 import javax.swing.*;
-
 import Global.GlobalVar;
 import Global.ModeFactory;
-
 
 public class Window extends JFrame {
 	private JMenuBar jmb = new JMenuBar();
 	private JMenu fileMenu = new JMenu("File"), editMenu = new JMenu("Edit");
 	private JMenuItem[] editItem = new JMenuItem[3];
-
-	private ButtonHandler bh = new ButtonHandler();// 按鈕事件
-	private MenuHandler mh = new MenuHandler();// 功能表單事件
-	private ButtonTable buttons  = new ButtonTable(); // test
+	private ButtonHandler bh = new ButtonHandler();
+	private MenuHandler mh = new MenuHandler();
+	private ButtonTable buttons  = new ButtonTable();
 	private Canvas canvas;
     private Modes.Mode mode;
     
 	public Window() {
 		this.setTitle("UML editor");
 		this.setSize(GlobalVar.WINDOW_SIZE_H, GlobalVar.WINDOW_SIZE_W);
-
 		this.setLayout(null);
 		this.setBackground(Color.WHITE);
 		this.setVisible(true);
 		this.setLocationRelativeTo(null);
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
 		initMenuBar();
 		initButton();
 		initCanvas();
@@ -66,15 +60,13 @@ public class Window extends JFrame {
 			}
 		}
 		catch (Exception e) {
-			System.out.println("error");
 		}
 	}
 	void initCanvas(){
-		canvas = new Canvas(getGraphics());
+		canvas = new Canvas();
 		add(canvas);
 	}
 	void changeMode(){
-		System.out.println("now "+buttons.no);
 		canvas.removeMouseListener(mode);
 		mode = ModeFactory.create(buttons.no, canvas);
 		canvas.addMouseListener(mode);

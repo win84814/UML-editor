@@ -1,7 +1,7 @@
 package Modes;
-
 import java.awt.event.MouseEvent;
 import Shapes.UsecaseObject;
+
 public class UsecaseMode extends Mode{
 	public UsecaseMode(GUI.Canvas canvas){
 		super(canvas);

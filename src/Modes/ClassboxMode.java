@@ -1,5 +1,4 @@
 package Modes;
-
 import java.awt.event.MouseEvent;
 import Shapes.ClassboxObject;
 

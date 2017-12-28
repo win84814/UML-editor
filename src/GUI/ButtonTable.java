@@ -1,35 +1,33 @@
 package GUI;
 import java.awt.Color;
 
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import Global.GlobalVar;
+import Shapes.BasicObject;
 
 public class ButtonTable extends ButtonGroup{
 	int no;
 	public ButtonTable() {
 		super();
-		no = -1;
+		no = GlobalVar.NO_SELECT;
 	}
 	public void Update () {
 		int clickNo = Integer.parseInt(this.getSelection().getActionCommand());
+		clearSelected();
 		if(clickNo == no){
-			no = -1;
-			InitState();
+			no = GlobalVar.NO_SELECT;
 		}
 		else{
-			if(no != -1){
-				buttons.get(no).setSelected(false);
-				buttons.get(no).setBackground(Color.white);
-			}
 			buttons.get(clickNo).setSelected(true);
 			buttons.get(clickNo).setBackground(Color.black);
 			no = clickNo;
 		}
-		System.out.println(no);
 	}
-	private void InitState(){
+	private void clearSelected(){
 		clearSelection();
-		for(int i = 0; i < this.getButtonCount(); i ++){
-			buttons.get(i).setBackground(Color.white);
+		for(AbstractButton button : buttons){
+			button.setBackground(Color.white);
 		}
 	}
 }

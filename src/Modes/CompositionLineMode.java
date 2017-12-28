@@ -1,11 +1,7 @@
 package Modes;
-
-import java.awt.Component;
 import java.awt.event.MouseEvent;
-import Global.GlobalVar;
 import Shapes.BasicObject;
 import Shapes.CompositionLine;
-import Shapes.GeneralizationLine;
 import Shapes.LineObject;
 
 public class CompositionLineMode extends Mode{
@@ -27,8 +23,8 @@ public class CompositionLineMode extends Mode{
 		BasicObject fromeComponent = canvas.clickSomething(onPressedX, onPressedY);
 		BasicObject toComponent = canvas.clickSomething(releasedX, releasedY);
 		if (fromeComponent != null && toComponent != null && fromeComponent.no != toComponent.no) {
-			int fromArea = fromeComponent.whichArea(onPressedX, onPressedY);
-			int toArea = toComponent.whichArea(releasedX, releasedY);
+			int fromArea = fromeComponent.getPort(onPressedX, onPressedY);
+			int toArea = toComponent.getPort(releasedX, releasedY);
 			LineObject lineObject = new CompositionLine(fromeComponent, toComponent, fromArea, toArea);
 			canvas.lineObjects.add(lineObject);
 			canvas.repaint();

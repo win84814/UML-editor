@@ -1,25 +1,17 @@
 package Shapes;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Iterator;
-
 import javax.swing.*;
-
 import Global.GlobalVar;
 
 public class BasicObject extends JComponent {
 	public int no;
-	public int x1;
-	public int y1;
+	public int x;
+	public int y;
 	public int width;
 	public int height;
-	public int areaSize;
+	public int portSize;
 	public int type;
 	public String name;
 	public ArrayList<BasicObject> container;
@@ -27,25 +19,25 @@ public class BasicObject extends JComponent {
 	public BasicObject() {
 		super();
 		this.setBackground(Color.white);
-		areaSize = 10;
+		portSize = GlobalVar.PORT_SIZE;
 		type = GlobalVar.NO_SELECT;
 	}
-	public BasicObject(int x1, int y1, int width, int height) {
+	public BasicObject(int x, int y, int width, int height) {
 		this();
-		this.x1 = x1;
-		this.y1 = y1;
+		this.x = x;
+		this.y = y;
 		this.width = width;
 		this.height =height;
-		areaSize = 10;
-		setBounds(x1-areaSize, y1-areaSize, width+areaSize*2, height+areaSize*2);
-		add(new Ports(areaSize, width, height));
+		portSize = GlobalVar.PORT_SIZE;
+		setBounds(x-portSize, y-portSize, width+portSize*2, height+portSize*2);
+		add(new Ports(portSize, width, height));
 		this.getComponent(0).setVisible(false);
 	}
 	public void relocate(int addX, int addY){
-		int newX = x1 + addX;
-		int newY = y1 + addY;
-		x1 = newX;
-		y1 = newY;
+		int newX = x + addX;
+		int newY = y + addY;
+		x = newX;
+		y = newY;
 		if(type == GlobalVar.GROUP){
 			for(BasicObject basicObject : container){
 				basicObject.relocate(addX, addY);
@@ -54,14 +46,14 @@ public class BasicObject extends JComponent {
 	}
 	public Point getArea(int area){
 		switch (area) {
-			case GlobalVar.UP: return new Point(x1 + width/2, y1);
-			case GlobalVar.LEFT: return new Point(x1 , y1 + height/2);
-			case GlobalVar.DOWN: return new Point(x1 + width/2, y1 + height);
-			case GlobalVar.RIGHT: return new Point(x1 + width, y1 + height/2);
+			case GlobalVar.UP: return new Point(x + width/2, y);
+			case GlobalVar.LEFT: return new Point(x , y + height/2);
+			case GlobalVar.DOWN: return new Point(x + width/2, y + height);
+			case GlobalVar.RIGHT: return new Point(x + width, y + height/2);
 			default:return new Point(-1,-1);
 		}
 	}
-	public int whichArea(int x, int y){
+	public int getPort(int x, int y){
 		int area = -1;
 		double maxDis = Double.MAX_VALUE;
 		for(int i = 0; i < 4; i++){
@@ -74,8 +66,8 @@ public class BasicObject extends JComponent {
 		}
 		return area;
 	}
-	public double distance(int x1, int y1, int x2, int y2){
-		return Math.sqrt(Math.abs(x1 - x2)*Math.abs(x1 - x2) + Math.abs(y1 - y2) * Math.abs(y1 - y2));
+	public double distance(int x, int y, int x2, int y2){
+		return Math.sqrt(Math.abs(x - x2)*Math.abs(x - x2) + Math.abs(y - y2) * Math.abs(y - y2));
 	}
 	public void setSelected(boolean bool){
 		if(bool){

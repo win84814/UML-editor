@@ -1,10 +1,8 @@
 package GUI;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import javax.swing.*;
-
 import Global.GlobalVar;
 import Shapes.BasicObject;
 import Shapes.GroupObject;
@@ -13,19 +11,17 @@ import Shapes.LineObject;
 public class Canvas extends JPanel  {
 	public int selectedButton;
 	public int selectedNo;
-	public Integer depth;
+	public int depth;
 	public BasicObject[] selectObjects;
 	public ArrayList<BasicObject> basicObjects = new ArrayList<BasicObject>();
 	public ArrayList<LineObject> lineObjects  = new ArrayList<LineObject>();
-	public Graphics graphics;
-	public Canvas(Graphics graphics) {
+	public Canvas() {
 		super();
-		this.setBounds(140, 20, GlobalVar.CANVAS_SIZE_W, GlobalVar.CANVAS_SIZE_H);
+		this.setBounds(GlobalVar.CANVAS_INTERVAL_W, GlobalVar.CANVAS_INTERVAL_H, GlobalVar.CANVAS_SIZE_W, GlobalVar.CANVAS_SIZE_H);
 		this.setLayout(null);
 		this.setBackground(Color.white);
 		this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-		this.graphics = graphics;
-		depth = 99;
+		depth = GlobalVar.START_DEPTH;
 		selectedNo = GlobalVar.NO_SELECT;
 		selectedButton = GlobalVar.NO_SELECT;
 	}
@@ -34,14 +30,12 @@ public class Canvas extends JPanel  {
 		super.paintComponent(g);
 		removeAll();
 		for(BasicObject basicObject : basicObjects){
-			add(basicObject);
+			add(basicObject,GlobalVar.FIRST);
 		}
 		for(LineObject lineObject : lineObjects){
 			add(lineObject);
 		}
-		System.out.println("SIZE "+basicObjects.size());
 	}
-	
 	public void cancelSelect() {
 		for(BasicObject basicObject : basicObjects){
 			basicObject.setSelected(false);
@@ -94,8 +88,8 @@ public class Canvas extends JPanel  {
 		BasicObject result = null;
 		int max = Integer.MIN_VALUE;
 		for (BasicObject basicObject : basicObjects) {
-			if((clickX >= basicObject.x1 && clickX <= basicObject.x1+basicObject.width &&
-					clickY >= basicObject.y1 && clickY <= basicObject.y1+basicObject.height)){
+			if((clickX >= basicObject.x && clickX <= basicObject.x+basicObject.width &&
+					clickY >= basicObject.y && clickY <= basicObject.y+basicObject.height)){
 				if(basicObject.no > max){
 					max = basicObject.no;
 					result = basicObject;
