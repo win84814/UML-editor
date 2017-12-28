@@ -44,7 +44,7 @@ public class BasicObject extends JComponent {
 			}
 		}
 	}
-	public Point getArea(int area){
+	public Point getPoint(int area){
 		switch (area) {
 			case GlobalVar.UP: return new Point(x + width/2, y);
 			case GlobalVar.LEFT: return new Point(x , y + height/2);
@@ -57,7 +57,7 @@ public class BasicObject extends JComponent {
 		int area = -1;
 		double maxDis = Double.MAX_VALUE;
 		for(int i = 0; i < 4; i++){
-			Point point = getArea(i);
+			Point point = getPoint(i);
 			double dis = distance(x,y,point.x,point.y);
 			if(dis < maxDis){
 				area = i;

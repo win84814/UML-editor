@@ -14,8 +14,8 @@ public class GeneralizationLine extends LineObject{
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Point fromPoint = from.getArea(fromPort);
-        Point toPoint = to.getArea(toPort);
+        Point fromPoint = from.getPoint(fromPort);
+        Point toPoint = to.getPoint(toPort);
         g.drawLine(fromPoint.x, fromPoint.y, toPoint.x, toPoint.y);
         Polygon polygon = new Polygon();
         polygon.addPoint(fromPoint.x, fromPoint.y);
